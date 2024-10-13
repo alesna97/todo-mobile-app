@@ -1,17 +1,28 @@
 import React from 'react';
-import {Text, View} from 'native-base';
+import {HStack, Input, Text, VStack} from 'native-base';
 import dayjs from 'dayjs';
 
-const Header = () => {
+const Header = ({handleSearch}: {handleSearch: (text: string) => void}) => {
   return (
-    <View height={200} bgColor="primary.500" p={2} justifyContent="center">
-      <Text color="white" fontWeight={600} fontSize="2xl">
-        {dayjs().format('dddd')},
-      </Text>
-      <Text color="white" fontWeight={600} fontSize="2xl">
-        {dayjs().format('DD MMMM YYYY')}
-      </Text>
-    </View>
+    <VStack bgColor="primary.500" px={4} space={4} py={4} height={180}>
+      <HStack width="100%" justifyContent="flex-end">
+        <VStack>
+          <Text color="white" fontWeight={600} fontSize="3xl" textAlign="right">
+            {dayjs().format('dddd')}
+          </Text>
+          <Text color="white" fontWeight={600} fontSize="xl">
+            {dayjs().format('DD MMMM YYYY')}
+          </Text>
+        </VStack>
+      </HStack>
+      <Input
+        placeholder="Search todo"
+        bgColor="white"
+        borderRadius={12}
+        onChangeText={handleSearch}
+        height={46}
+      />
+    </VStack>
   );
 };
 

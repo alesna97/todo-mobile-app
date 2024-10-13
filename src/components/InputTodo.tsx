@@ -1,16 +1,22 @@
 /* eslint-disable @typescript-eslint/no-shadow */
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {AddIcon, Button, Divider, Input, Modal, Text, View} from 'native-base';
 import {Fab} from 'native-base';
 import useTodo from '../hooks/useTodo';
 
 const InputTodo = () => {
-  const {updateTodo, createTodo, selectedTodo, unSelectTodo} = useTodo();
-  const [open, setOpen] = useState(false);
+  const {
+    updateTodo,
+    createTodo,
+    selectedTodo,
+    unSelectTodo,
+    openInput,
+    toggleInput,
+  } = useTodo();
   const [value, setValue] = useState('');
 
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const handleOpen = () => toggleInput(true);
+  const handleClose = () => toggleInput(false);
 
   const onChange = (text: string) => {
     setValue(text);
@@ -20,6 +26,7 @@ const InputTodo = () => {
     if (selectedTodo?.id) {
       updateTodo({todo: value});
       unSelectTodo();
+      handleClose();
       return setValue('');
     }
 
@@ -28,10 +35,16 @@ const InputTodo = () => {
     return setValue('');
   };
 
+  useEffect(() => {
+    if (selectedTodo?.id) {
+      setValue(selectedTodo?.todo);
+    }
+  }, [selectedTodo?.id, selectedTodo?.todo]);
+
   return (
     <>
       <Fab size="lg" icon={<AddIcon />} onPress={handleOpen} />
-      <Modal isOpen={open} onClose={handleClose}>
+      <Modal isOpen={openInput} onClose={handleClose}>
         <View bgColor="white" p={4} borderRadius={12} width={'90%'}>
           <Text fontSize="lg" fontWeight={500} mb={2}>
             Add new todo
@@ -42,6 +55,7 @@ const InputTodo = () => {
             height={46}
             borderRadius={8}
             mb={2}
+            value={value}
             onChangeText={onChange}
           />
           <Button mb={2} onPress={() => proceedTodo(value)}>

@@ -13,7 +13,6 @@ import TodoProvider from './src/components/TodoProvider';
 import TodoList from './src/components/TodoList';
 import InputTodo from './src/components/InputTodo';
 import {NativeBaseProvider, extendTheme} from 'native-base';
-import Header from './src/components/Header';
 
 function App(): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
@@ -46,7 +45,7 @@ function App(): React.JSX.Element {
             barStyle={isDarkMode ? 'light-content' : 'dark-content'}
             backgroundColor={backgroundStyle.backgroundColor}
           />
-          <Header />
+
           <TodoList />
           <InputTodo />
         </SafeAreaView>

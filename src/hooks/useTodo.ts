@@ -6,6 +6,10 @@ const useTodo = (props: {search: string} = {search: ''}) => {
   const todo = useContext(TodoContext);
   const dispatch = useContext(TodoDispatchContext);
 
+  const toggleInput = (open: boolean) =>
+    dispatch &&
+    dispatch({type: TTodoReducerAction.TOGGLE_INPUT, payload: open});
+
   const createTodo = useCallback(
     (value: string) => {
       if (!value) {
@@ -64,11 +68,13 @@ const useTodo = (props: {search: string} = {search: ''}) => {
   return {
     data,
     selectedTodo: todo?.selectedTodo,
+    openInput: todo?.openModal,
     createTodo,
     selectTodo,
     unSelectTodo,
     updateTodo,
     deleteTodo,
+    toggleInput,
   };
 };
 

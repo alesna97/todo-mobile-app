@@ -4,6 +4,7 @@ export enum TTodoReducerAction {
   DELETE = 'DELETE',
   SELECT = 'SELECT',
   UNSELECT = 'UNSELECT',
+  TOGGLE_INPUT = 'TOGGLE_INPUT',
 }
 
 export type TTodoItem = {todo: string; id: number; completed: boolean};
@@ -15,13 +16,22 @@ export type TTodoAction =
     }
   | {
       type: TTodoReducerAction.UNSELECT;
+    }
+  | {
+      type: TTodoReducerAction.TOGGLE_INPUT;
+      payload: boolean;
     };
 
 export type TTodos = TTodoItem[];
 
-export type TTodoState = {todos: TTodos; selectedTodo: null | TTodoItem};
+export type TTodoState = {
+  todos: TTodos;
+  selectedTodo: null | TTodoItem;
+  openModal: boolean;
+};
 
 export const initialTodo: TTodoState = {
+  openModal: false,
   selectedTodo: null,
   todos: [
     {
@@ -98,6 +108,12 @@ const todoReducer = (state: TTodoState, action: TTodoAction) => {
       return {
         ...state,
         selectedTodo: null,
+      };
+    }
+    case TTodoReducerAction.TOGGLE_INPUT: {
+      return {
+        ...state,
+        openModal: action.payload,
       };
     }
     default:
