@@ -1,23 +1,19 @@
 import React from 'react';
-import {FlatList, StyleSheet, View} from 'react-native';
+import {FlatList, View} from 'native-base';
 import useTodo from '../hooks/useTodo';
 import TodoItem from './TodoItem';
-
-const styles = StyleSheet.create({
-  container: {
-    display: 'flex',
-    height: '100%',
-    padding: 16,
-    gap: 16,
-    position: 'relative',
-  },
-});
 
 const TodoList = () => {
   const {data} = useTodo();
 
   return (
-    <View style={styles.container}>
+    <View
+      marginTop={-6}
+      pt={4}
+      bgColor="gray.50"
+      borderTopRadius={12}
+      px={4}
+      height="100%">
       <FlatList
         data={data || []}
         renderItem={({item}) => <TodoItem {...item} />}

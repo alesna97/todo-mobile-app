@@ -1,35 +1,50 @@
 import React from 'react';
-import {Button, StyleSheet, Text, View} from 'react-native';
+import {
+  Card,
+  Checkbox,
+  DeleteIcon,
+  HStack,
+  IconButton,
+  Text,
+} from 'native-base';
 import {TTodoItem} from '../reducers/todoReducer';
 import useTodo from '../hooks/useTodo';
-
-const styles = StyleSheet.create({
-  listItem: {
-    minHeight: 64,
-    backgroundColor: 'white',
-    padding: 8,
-    borderRadius: 16,
-    display: 'flex',
-    gap: 16,
-  },
-});
 
 const TodoItem = ({id, todo, completed}: TTodoItem) => {
   const {deleteTodo, updateTodo} = useTodo();
 
   return (
-    <View key={id} style={styles.listItem}>
-      <Text>{todo}</Text>
-      <Button
-        title="delete"
+    <Card
+      key={id}
+      minHeight={16}
+      backgroundColor={'white'}
+      px={4}
+      borderRadius={8}
+      shadow={1}
+      mb={2}
+      display="flex"
+      flexDir="row"
+      alignItems="center">
+      <HStack
+        flex={1}
+        alignItems="center"
+        space={4}
+        opacity={completed ? 0.3 : 1}>
+        <Checkbox
+          isChecked={completed}
+          value="test"
+          onChange={() => updateTodo({id, todo, completed: !completed})}
+        />
+        <Text fontSize="lg" flex={1}>
+          {todo}
+        </Text>
+      </HStack>
+      <IconButton
+        zIndex={1}
+        icon={<DeleteIcon />}
         onPress={() => deleteTodo({id, todo, completed})}
       />
-      <Button title="edit" />
-      <Button
-        title="mark as completed"
-        onPress={() => updateTodo({id, todo, completed: !completed})}
-      />
-    </View>
+    </Card>
   );
 };
 
